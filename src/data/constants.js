@@ -207,12 +207,207 @@ export const CAREERS = [
 
 // Weather
 export const WEATHER_TYPES = [
-  { name: 'Sunny', desc: 'Bright sunlight streams through the curtains.', mood: 2 },
-  { name: 'Cloudy', desc: 'Grey clouds hang outside your window.', mood: 0 },
-  { name: 'Rainy', desc: 'Rain patters against the glass.', mood: -1 },
-  { name: 'Stormy', desc: 'Thunder rumbles in the distance. It\'s a stormy day.', mood: -2 },
-  { name: 'Hot', desc: 'It\'s already warm. Going to be a hot one.', mood: 0 },
-  { name: 'Cold', desc: 'It\'s cold this morning. You can see your breath.', mood: -1 },
-  { name: 'Foggy', desc: 'Fog blankets the street outside.', mood: 0 },
-  { name: 'Snowy', desc: 'Snow has fallen overnight, the world white and quiet.', mood: 1 },
+  { name: 'Sunny', desc: 'Bright sunlight streams through the curtains.', mood: 2, outdoorBonus: 20 },
+  { name: 'Cloudy', desc: 'Grey clouds hang outside your window.', mood: 0, outdoorBonus: 0 },
+  { name: 'Rainy', desc: 'Rain patters against the glass.', mood: -1, outdoorBonus: -10 },
+  { name: 'Stormy', desc: 'Thunder rumbles in the distance. It\'s a stormy day.', mood: -2, outdoorBonus: -30 },
+  { name: 'Hot', desc: 'It\'s already warm. Going to be a hot one.', mood: 0, energyDrain: 10 },
+  { name: 'Cold', desc: 'It\'s cold this morning. You can see your breath.', mood: -1, energyDrain: 5 },
+  { name: 'Foggy', desc: 'Fog blankets the street outside.', mood: 0, travelPenalty: 10 },
+  { name: 'Snowy', desc: 'Snow has fallen overnight, the world white and quiet.', mood: 1, outdoorBonus: -20 },
 ];
+
+// Seasons
+export const SEASONS = [
+  {
+    id: 'spring',
+    name: 'Spring',
+    months: [2, 3, 4], // March, April, May (0-indexed)
+    durationDays: 91,
+    moodModifier: 1,
+    weatherWeights: { Sunny: 25, Cloudy: 30, Rainy: 25, Stormy: 10, Hot: 5, Cold: 5, Foggy: 0, Snowy: 0 },
+    desc: 'Flowers bloom and days grow longer.'
+  },
+  {
+    id: 'summer',
+    name: 'Summer',
+    months: [5, 6, 7], // June, July, August
+    durationDays: 92,
+    moodModifier: 2,
+    weatherWeights: { Sunny: 40, Cloudy: 20, Rainy: 15, Stormy: 10, Hot: 15, Cold: 0, Foggy: 0, Snowy: 0 },
+    desc: 'Long, warm days perfect for outdoor activities.'
+  },
+  {
+    id: 'autumn',
+    name: 'Autumn',
+    months: [8, 9, 10], // September, October, November
+    durationDays: 91,
+    moodModifier: 0,
+    weatherWeights: { Sunny: 20, Cloudy: 30, Rainy: 25, Stormy: 15, Hot: 0, Cold: 10, Foggy: 0, Snowy: 0 },
+    desc: 'Leaves turn golden and the air grows crisp.'
+  },
+  {
+    id: 'winter',
+    name: 'Winter',
+    months: [11, 0, 1], // December, January, February
+    durationDays: 90,
+    moodModifier: -1,
+    weatherWeights: { Sunny: 15, Cloudy: 25, Rainy: 15, Stormy: 10, Hot: 0, Cold: 20, Foggy: 10, Snowy: 5 },
+    desc: 'Short, cold days. Best spent indoors.'
+  },
+];
+
+// Holidays
+export const HOLIDAYS = [
+  { name: 'New Year\'s Day', month: 0, day: 1, noWork: true, moodBonus: 5, desc: 'Happy New Year! A fresh start.' },
+  { name: 'Valentine\'s Day', month: 1, day: 14, noWork: false, moodBonus: 2, relationshipBonus: true, desc: 'Love is in the air.' },
+  { name: 'Easter', month: 3, day: 20, noWork: true, moodBonus: 3, desc: 'Easter Sunday. Time for chocolate.' }, // Approximate
+  { name: 'May Day', month: 4, day: 1, noWork: true, moodBonus: 2, desc: 'A day to celebrate spring.' },
+  { name: 'Summer Solstice', month: 5, day: 21, noWork: false, moodBonus: 2, desc: 'The longest day of the year.' },
+  { name: 'Halloween', month: 9, day: 31, noWork: false, moodBonus: 3, barEvent: true, desc: 'Spooky season at its peak.' },
+  { name: 'Bonfire Night', month: 10, day: 5, noWork: false, moodBonus: 2, desc: 'Remember, remember...' },
+  { name: 'Christmas Eve', month: 11, day: 24, halfDay: true, moodBonus: 3, desc: 'Anticipation builds.' },
+  { name: 'Christmas Day', month: 11, day: 25, noWork: true, moodBonus: 5, desc: 'Merry Christmas!' },
+  { name: 'Boxing Day', month: 11, day: 26, noWork: true, moodBonus: 3, desc: 'Leftover turkey and sales.' },
+  { name: 'New Year\'s Eve', month: 11, day: 31, noWork: false, barEvent: true, moodBonus: 4, desc: 'Ring in the new year!' },
+];
+
+// Stress System
+export const STRESS_LEVELS = [
+  { id: 'relaxed', name: 'Relaxed', range: [0, 20], moodBonus: 5, sleepBonus: 10, desc: 'Completely at ease.' },
+  { id: 'calm', name: 'Calm', range: [21, 40], moodBonus: 0, sleepBonus: 0, desc: 'Peaceful and collected.' },
+  { id: 'normal', name: 'Normal', range: [41, 60], moodBonus: 0, sleepBonus: 0, desc: 'Everyday stress levels.' },
+  { id: 'stressed', name: 'Stressed', range: [61, 80], moodBonus: -5, sleepBonus: -10, desc: 'Tension is building.' },
+  { id: 'overwhelmed', name: 'Overwhelmed', range: [81, 100], moodBonus: -10, sleepBonus: -20, healthRisk: true, desc: 'Everything feels like too much.' },
+];
+
+// Energy System
+export const ENERGY_LEVELS = [
+  { id: 'exhausted', name: 'Exhausted', range: [0, 20], productivityMod: -50, canWork: false, desc: 'You can barely keep your eyes open.' },
+  { id: 'tired', name: 'Tired', range: [21, 40], productivityMod: -20, canWork: true, desc: 'Running on empty.' },
+  { id: 'normal', name: 'Normal', range: [41, 60], productivityMod: 0, canWork: true, desc: 'Feeling okay.' },
+  { id: 'rested', name: 'Rested', range: [61, 80], productivityMod: 10, canWork: true, desc: 'Well-rested and ready.' },
+  { id: 'energized', name: 'Energized', range: [81, 100], productivityMod: 20, moodBonus: 3, canWork: true, desc: 'Full of energy!' },
+];
+
+// Financial States
+export const FINANCIAL_STATES = [
+  { id: 'wealthy', name: 'Wealthy', minMoney: 5000, moodBonus: 2, desc: 'Money is no object.' },
+  { id: 'comfortable', name: 'Comfortable', minMoney: 2000, moodBonus: 0, desc: 'Financially secure.' },
+  { id: 'tight', name: 'Tight', minMoney: 500, moodBonus: -1, desc: 'Watching every penny.' },
+  { id: 'struggling', name: 'Struggling', minMoney: 100, moodBonus: -3, desc: 'Making ends meet is hard.' },
+  { id: 'broke', name: 'Broke', minMoney: 0, moodBonus: -5, restricted: true, desc: 'Barely scraping by.' },
+  { id: 'inDebt', name: 'In Debt', minMoney: -9999, moodBonus: -8, severeRestrictions: true, desc: 'Drowning in debt.' },
+];
+
+// Locations
+export const LOCATIONS = {
+  home: {
+    id: 'home',
+    name: 'Home',
+    type: 'residence',
+    rooms: [
+      { id: 'bedroom', name: 'Bedroom', activities: ['sleep', 'rest', 'intimacy'] },
+      { id: 'bathroom', name: 'Bathroom', activities: ['hygiene', 'mirror'] },
+      { id: 'kitchen', name: 'Kitchen', activities: ['cook', 'eat'] },
+      { id: 'livingRoom', name: 'Living Room', activities: ['relax', 'tv', 'read'] },
+    ]
+  },
+  work: {
+    id: 'work',
+    name: 'Workplace',
+    type: 'employment',
+    hours: { open: 1, close: 5 }, // Time slot indices
+    activities: ['work', 'socialize']
+  },
+  bar: {
+    id: 'bar',
+    name: 'The Crown',
+    type: 'social',
+    hours: { open: 6, close: 7 }, // Evening and Night
+    activities: ['drink', 'socialize', 'hookup', 'drugs']
+  },
+  mall: {
+    id: 'mall',
+    name: 'Shopping Centre',
+    type: 'shopping',
+    hours: { open: 1, close: 6 },
+    shops: [
+      { id: 'supermarket', name: 'Supermarket', items: ['groceries'] },
+      { id: 'pharmacy', name: 'Pharmacy', items: ['medicine', 'tests'] },
+      { id: 'clothing', name: 'Clothing Store', items: ['clothes', 'maternity'] },
+      { id: 'adult', name: 'Adult Store', items: ['toys', 'lingerie'] },
+    ]
+  },
+  foodCourt: {
+    id: 'foodCourt',
+    name: 'Food Court',
+    type: 'dining',
+    hours: { open: 3, close: 6 }, // Noon to Evening
+    activities: ['eat']
+  },
+  gym: {
+    id: 'gym',
+    name: 'Fitness Centre',
+    type: 'fitness',
+    hours: { open: 0, close: 7 }, // Early Morning to Night
+    activities: ['exercise', 'yoga', 'swim']
+  },
+  park: {
+    id: 'park',
+    name: 'City Park',
+    type: 'outdoor',
+    hours: { open: 0, close: 6 },
+    activities: ['walk', 'jog', 'relax', 'socialize']
+  },
+  doctor: {
+    id: 'doctor',
+    name: 'GP Surgery',
+    type: 'medical',
+    hours: { open: 1, close: 5 },
+    activities: ['checkup', 'treatment']
+  },
+  ellaClinic: {
+    id: 'ellaClinic',
+    name: 'Dr. Ella\'s Clinic',
+    type: 'medical',
+    hours: { open: 2, close: 5 },
+    activities: ['experiments', 'checkup']
+  },
+};
+
+// Health Conditions
+export const HEALTH_CONDITIONS = [
+  { id: 'cold', name: 'Cold', duration: [3, 5], energyPenalty: 20, moodPenalty: 5, cause: 'immunity' },
+  { id: 'flu', name: 'Flu', duration: [5, 7], energyPenalty: 40, moodPenalty: 10, cause: 'immunity' },
+  { id: 'hangover', name: 'Hangover', duration: [1, 1], energyPenalty: 30, moodPenalty: 10, cause: 'alcohol' },
+  { id: 'fatigue', name: 'Fatigue', duration: [1, 3], energyPenalty: 30, moodPenalty: 5, cause: 'overwork' },
+  { id: 'backPain', name: 'Back Pain', duration: [2, 7], moodPenalty: 5, activityRestrictions: ['gym', 'jog'], cause: 'physical' },
+  { id: 'cramps', name: 'Cramps', duration: [1, 3], moodPenalty: 8, cause: 'period' },
+];
+
+// Random Events
+export const RANDOM_EVENTS = {
+  positive: [
+    { id: 'foundMoney', text: 'You found £{amount} on the ground!', moneyRange: [10, 30], chance: 0.03 },
+    { id: 'taxRefund', text: 'Surprise tax refund! £{amount} deposited.', moneyRange: [50, 150], chance: 0.01 },
+    { id: 'compliment', text: 'A stranger complimented your outfit today.', moodBonus: 5, chance: 0.05 },
+    { id: 'luckyDay', text: 'Everything just seems to go right today!', moodBonus: 10, chance: 0.02 },
+    { id: 'freeFood', text: 'A friend treated you to lunch!', moodBonus: 5, mealsBonus: 1, chance: 0.03 },
+    { id: 'goodNews', text: 'You received some unexpected good news.', moodBonus: 8, chance: 0.03 },
+  ],
+  negative: [
+    { id: 'unexpectedBill', text: 'An unexpected bill arrived: -£{amount}', moneyRange: [30, 80], chance: 0.05 },
+    { id: 'lostWallet', text: 'You lost some money from your wallet.', moneyRange: [10, 30], chance: 0.02 },
+    { id: 'badNews', text: 'You received some disappointing news.', moodPenalty: 8, chance: 0.03 },
+    { id: 'ruinedClothes', text: 'You ruined your favourite outfit.', moodPenalty: 5, chance: 0.02 },
+    { id: 'stubToe', text: 'You stubbed your toe. Ouch!', moodPenalty: 3, chance: 0.05 },
+    { id: 'badSleep', text: 'You had terrible nightmares last night.', moodPenalty: 5, energyPenalty: 10, chance: 0.05 },
+  ],
+  neutral: [
+    { id: 'oldFriend', text: 'You ran into an old acquaintance.', moodBonus: 3, chance: 0.04 },
+    { id: 'weather', text: 'The weather changed unexpectedly.', chance: 0.10 },
+    { id: 'deja_vu', text: 'You experienced an odd sense of déjà vu.', chance: 0.03 },
+    { id: 'phoneCall', text: 'You had a long phone call with family.', moodBonus: 2, chance: 0.05 },
+  ],
+};
